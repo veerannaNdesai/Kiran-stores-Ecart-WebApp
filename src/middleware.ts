@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
-const secretKey = 'kiran-stores-secret-key-123';
+const secretKey = process.env.JWT_SECRET || 'kiran-stores-secret-key-123';
 const key = new TextEncoder().encode(secretKey);
 
 export async function middleware(request: NextRequest) {
