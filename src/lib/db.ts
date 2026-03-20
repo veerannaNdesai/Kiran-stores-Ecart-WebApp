@@ -1,5 +1,4 @@
 import { sql } from '@vercel/postgres';
-import Database from 'better-sqlite3';
 import path from 'path';
 
 const isVercel = process.env.VERCEL === '1' || process.env.POSTGRES_URL;
@@ -16,6 +15,7 @@ let initialized = false;
 
 const getSqlite = () => {
   if (!sqliteDb) {
+    const Database = require('better-sqlite3');
     sqliteDb = new Database(path.join(process.cwd(), 'kiran_stores.db'));
   }
   return sqliteDb;
