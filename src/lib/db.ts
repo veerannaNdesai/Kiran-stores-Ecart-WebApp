@@ -172,7 +172,10 @@ export async function initDb() {
     );
   `;
 
-  await db.execute(schema);
+  const statements = schema.split(';').filter(s => s.trim().length > 0);
+  for (const stmt of statements) {
+    await db.execute(stmt);
+  }
 
   // Seed data if empty
   const products = await db.query('SELECT COUNT(*) as count FROM products');
