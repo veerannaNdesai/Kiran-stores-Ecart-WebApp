@@ -86,6 +86,12 @@ export const db: DbInterface = {
 
 // Initialization function to be called on startup or first request
 export async function initDb() {
+  if (isVercel && !process.env.POSTGRES_URL) {
+    console.error("CRITICAL ERROR: POSTGRES_URL environment variable is missing.");
+    console.error("Please provision a Vercel Postgres database and link it to this project.");
+    throw new Error("Database not configured: POSTGRES_URL is missing.");
+  }
+
   const schema = isVercel ? `
     CREATE TABLE IF NOT EXISTS products (
       id SERIAL PRIMARY KEY,

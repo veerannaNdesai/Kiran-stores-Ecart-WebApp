@@ -24,7 +24,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, user });
   } catch (error: any) {
-    if (error.message.includes('UNIQUE constraint failed')) {
+    if (
+      error.message?.includes('UNIQUE constraint failed') ||
+      error.message?.includes('duplicate key value violates unique constraint') ||
+      error.code === '23505'
+    ) {
       return NextResponse.json({ error: 'Phone number already registered' }, { status: 400 });
     }
     console.error('Registration error:', error);
